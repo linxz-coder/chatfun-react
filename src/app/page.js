@@ -144,15 +144,6 @@ export default function Home() {
     }
   };
 
-  
-
-  // 代替console.log,使用 useEffect 来监听 messages 的变化。
-  // useEffect(() => {
-  //   if (messages.length > 1) { // 只在消息数量变化时输出
-  //     console.log("Updated AI response:", messages);
-  //   }
-  // }, [messages]);
-
   // 选择对话
   const switchChat = (ssid,title) => {
     setActiveChatId(ssid);
@@ -184,12 +175,12 @@ export default function Home() {
 
         {/* 聊天列表 */}
         <div className="overflow-y-auto">
-          {displaySSIDs.map((ssid, index) => {
+          {displaySSIDs.map((ssid) => {
             const chatMessages = messages.filter(message => message.ssid === ssid);
             const title = `对话${uniqueSSIDs.indexOf(ssid) + 1}`;
             return (
               <ChatItem
-                key={index}
+                key={ssid}
                 ssid={ssid}
                 title={title}
                 messages={chatMessages}
@@ -212,8 +203,8 @@ export default function Home() {
         <div className="flex-1 overflow-auto p-4">
           {messages
             .filter(message => message.ssid === activeChatId)
-            .map((message, index) => (
-              <Message key={index} user={message.user === 'user'} content={message.content} />
+            .map((message) => (
+              <Message key={`${message.ssid}-${message.seq}`} user={message.user === 'user'} content={message.content} />
           ))}
         </div>
 
